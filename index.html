@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ansh & Vardhini</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Floating Hearts Background -->
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <!-- Password Gate -->
+    <div class="password-gate" id="passwordGate">
+        <div class="login-card">
+            <div class="login-heart">&#10084;</div>
+            <h1 class="login-title">Ansh & Vardhini</h1>
+            <p class="login-subtitle">Enter our secret to continue...</p>
+            <input type="password" id="passwordInput" class="password-input" placeholder="Enter password" autocomplete="off">
+            <button class="login-btn" onclick="checkPassword()">
+                <span>Enter</span>
+                <span class="btn-heart">&#10084;</span>
+            </button>
+            <p class="error-msg" id="errorMsg"></p>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="main-app" id="mainApp" style="display: none;">
+        <!-- Header -->
+        <header class="app-header">
+            <h1 class="app-title">Ansh & Vardhini</h1>
+            <p class="days-together" id="daysTogether"></p>
+        </header>
+
+        <!-- Countdown Section -->
+        <section class="countdown-section">
+            <div class="countdown-card">
+                <h2 class="countdown-label">Until We're Together Again</h2>
+                <div class="countdown-timer" id="reunionCountdown">
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="countDays">00</span>
+                        <span class="countdown-unit">days</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="countHours">00</span>
+                        <span class="countdown-unit">hours</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="countMins">00</span>
+                        <span class="countdown-unit">mins</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="countSecs">00</span>
+                        <span class="countdown-unit">secs</span>
+                    </div>
+                </div>
+                <p class="reunion-date" id="reunionDate"></p>
+            </div>
+        </section>
+
+        <!-- Timezone Section -->
+        <section class="timezone-section">
+            <div class="timezone-card">
+                <div class="timezone-item">
+                    <div class="timezone-city">Seattle</div>
+                    <div class="timezone-time" id="seattleTime">--:--</div>
+                    <div class="timezone-person">Ansh</div>
+                    <div class="timezone-activity" id="anshActivity"></div>
+                </div>
+                <div class="timezone-divider">
+                    <span class="heart-divider">&#10084;</span>
+                </div>
+                <div class="timezone-item">
+                    <div class="timezone-city">Brooklyn</div>
+                    <div class="timezone-time" id="brooklynTime">--:--</div>
+                    <div class="timezone-person">Vardhini</div>
+                    <div class="timezone-activity" id="vardhiniActivity"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Upcoming Dates Section -->
+        <section class="dates-section">
+            <div class="section-header">
+                <h2 class="section-title">Our Dates</h2>
+                <button class="add-btn" onclick="openDateModal()">+ Add Date</button>
+            </div>
+            <div class="dates-list" id="datesList"></div>
+        </section>
+
+        <!-- Love Notes Section -->
+        <section class="notes-section">
+            <h2 class="section-title">Love Notes</h2>
+            <div class="notes-carousel" id="notesCarousel"></div>
+        </section>
+
+        <!-- Date Ideas Section -->
+        <section class="ideas-section">
+            <h2 class="section-title">Virtual Date Ideas</h2>
+            <div class="ideas-card">
+                <p class="idea-text" id="dateIdea">Click the button for a date idea!</p>
+                <button class="spin-btn" onclick="spinDateIdea()">
+                    <span>Spin for an Idea</span>
+                    <span class="sparkle">&#10022;</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>Made with &#10084; by Ansh</p>
+            <button class="notify-btn" id="notifyBtn" onclick="requestNotifications()">
+                Enable Reminders
+            </button>
+        </footer>
+    </div>
+
+    <!-- Add Date Modal -->
+    <div class="modal" id="dateModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeDateModal()">&times;</span>
+            <h2 class="modal-title">Add a Date</h2>
+            <form id="dateForm" onsubmit="addDate(event)">
+                <div class="form-group">
+                    <label for="dateTitle">What are we doing?</label>
+                    <input type="text" id="dateTitle" required placeholder="Movie night, Video call...">
+                </div>
+                <div class="form-group">
+                    <label for="dateDateTime">When?</label>
+                    <input type="datetime-local" id="dateDateTime" required>
+                </div>
+                <div class="form-group">
+                    <label for="dateType">Type</label>
+                    <select id="dateType">
+                        <option value="virtual">Virtual Date</option>
+                        <option value="visit">In-Person Visit</option>
+                        <option value="anniversary">Anniversary/Special</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="dateReminder" checked>
+                        Remind me 1 hour before
+                    </label>
+                </div>
+                <button type="submit" class="submit-btn">Save Date</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Date Detail Modal -->
+    <div class="modal" id="dateDetailModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeDateDetailModal()">&times;</span>
+            <h2 class="modal-title" id="detailTitle"></h2>
+            <p class="detail-time" id="detailTime"></p>
+            <p class="detail-timezone" id="detailTimezone"></p>
+            <div class="detail-actions">
+                <button class="action-btn calendar-btn" onclick="downloadICS()">
+                    Add to Calendar
+                </button>
+                <button class="action-btn delete-btn" onclick="deleteDate()">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
