@@ -86,20 +86,6 @@ const CONFIG = {
             dateTime: "2026-08-28T00:00",
             type: "anniversary",
             reminder: true
-        },
-        {
-            id: "weekly_call",
-            title: "Video Call Date 💻",
-            dateTime: "2026-01-19T20:00",
-            type: "virtual",
-            reminder: true
-        },
-        {
-            id: "movie_night",
-            title: "Netflix Watch Party 🎬",
-            dateTime: "2026-01-25T21:00",
-            type: "virtual",
-            reminder: true
         }
     ],
 
