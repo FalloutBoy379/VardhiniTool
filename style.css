@@ -801,3 +801,538 @@ body {
 .hidden {
     display: none !important;
 }
+
+/* ========================================
+   Quick Actions Section
+   ======================================== */
+
+.quick-actions-section {
+    margin-bottom: 30px;
+}
+
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.action-bubble {
+    background: var(--white);
+    border: none;
+    border-radius: 20px;
+    padding: 15px 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.action-bubble:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+}
+
+.action-bubble:active {
+    transform: scale(0.95);
+}
+
+.bubble-icon {
+    font-size: 1.8rem;
+}
+
+.bubble-text {
+    font-size: 0.7rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.hug-btn:hover { background: #fff0f3; }
+.kiss-btn:hover { background: #ffe8f0; }
+.miss-btn:hover { background: #f0e8ff; }
+.goodnight-btn:hover { background: #e8f0ff; }
+
+/* ========================================
+   Daily Quote Section
+   ======================================== */
+
+.quote-section {
+    margin-bottom: 30px;
+}
+
+.quote-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 25px;
+    padding: 30px;
+    text-align: center;
+    color: white;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.quote-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0%, 100% { transform: translate(-10%, -10%); }
+    50% { transform: translate(10%, 10%); }
+}
+
+.quote-icon {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.daily-quote {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    font-style: italic;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 1;
+}
+
+.quote-label {
+    font-size: 0.8rem;
+    opacity: 0.8;
+    position: relative;
+    z-index: 1;
+}
+
+/* ========================================
+   Milestones Section
+   ======================================== */
+
+.milestones-section {
+    margin-bottom: 30px;
+}
+
+.milestones-section .section-title {
+    margin-bottom: 15px;
+}
+
+.milestones-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.milestone-card {
+    background: var(--white);
+    border-radius: 15px;
+    padding: 20px 15px;
+    text-align: center;
+    box-shadow: var(--shadow-light);
+    transition: all 0.3s ease;
+}
+
+.milestone-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+}
+
+.milestone-card.achieved {
+    border: 2px solid var(--gold);
+}
+
+.milestone-card.achieved .milestone-icon {
+    animation: bounce 1s ease infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.milestone-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.milestone-title {
+    font-size: 0.85rem;
+    color: var(--text-dark);
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.milestone-status {
+    font-size: 0.75rem;
+    color: var(--text-light);
+}
+
+.milestone-status.achieved {
+    color: var(--gold);
+    font-weight: 600;
+}
+
+/* ========================================
+   Secret Message Section
+   ======================================== */
+
+.secret-section {
+    margin-bottom: 30px;
+}
+
+.secret-card {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    border-radius: 25px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.secret-card:hover {
+    transform: scale(1.02);
+}
+
+.secret-envelope {
+    color: white;
+}
+
+.envelope-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 10px;
+    animation: wiggle 2s ease-in-out infinite;
+}
+
+@keyframes wiggle {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+}
+
+.secret-envelope p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+.secret-message {
+    color: white;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.secret-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.close-secret-btn {
+    background: rgba(255,255,255,0.3);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    color: white;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.close-secret-btn:hover {
+    background: rgba(255,255,255,0.5);
+}
+
+/* ========================================
+   Animation Overlays
+   ======================================== */
+
+.hug-overlay,
+.kiss-overlay,
+.miss-overlay,
+.goodnight-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3000;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.hug-overlay.active,
+.kiss-overlay.active,
+.miss-overlay.active,
+.goodnight-overlay.active {
+    display: flex;
+}
+
+/* Hug Overlay */
+.hug-overlay {
+    background: radial-gradient(circle, rgba(255,182,193,0.95) 0%, rgba(255,105,180,0.95) 100%);
+}
+
+.hug-animation {
+    text-align: center;
+    animation: hugPulse 0.5s ease;
+}
+
+@keyframes hugPulse {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.hug-emoji {
+    font-size: 8rem;
+    display: block;
+    animation: hugWiggle 0.5s ease infinite;
+}
+
+@keyframes hugWiggle {
+    0%, 100% { transform: rotate(-10deg); }
+    50% { transform: rotate(10deg); }
+}
+
+.hug-message {
+    color: white;
+    font-size: 1.5rem;
+    margin-top: 20px;
+    font-weight: 500;
+}
+
+/* Kiss Overlay */
+.kiss-overlay {
+    background: radial-gradient(circle, rgba(255,182,193,0.95) 0%, rgba(219,112,147,0.95) 100%);
+}
+
+.kiss-animation {
+    text-align: center;
+    position: relative;
+}
+
+.flying-kisses {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.flying-kiss {
+    position: absolute;
+    font-size: 2rem;
+    animation: flyKiss 2s ease-out forwards;
+}
+
+@keyframes flyKiss {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--tx), var(--ty)) scale(0.5);
+    }
+}
+
+.kiss-message {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+}
+
+/* Miss You Overlay */
+.miss-overlay {
+    background: radial-gradient(circle, rgba(147,112,219,0.95) 0%, rgba(138,43,226,0.95) 100%);
+}
+
+.miss-animation {
+    text-align: center;
+    animation: fadeIn 0.5s ease;
+}
+
+.miss-emoji {
+    font-size: 5rem;
+    display: block;
+    animation: sadPulse 2s ease infinite;
+}
+
+@keyframes sadPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.miss-message {
+    color: white;
+    font-size: 1.5rem;
+    margin-top: 20px;
+    font-weight: 500;
+}
+
+.miss-submessage {
+    color: rgba(255,255,255,0.8);
+    font-size: 1rem;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+/* Goodnight Overlay */
+.goodnight-overlay {
+    background: radial-gradient(circle, rgba(25,25,112,0.98) 0%, rgba(0,0,30,0.98) 100%);
+}
+
+.goodnight-animation {
+    text-align: center;
+    position: relative;
+}
+
+.stars-container {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    color: white;
+    animation: twinkle 1.5s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+.moon-emoji {
+    font-size: 6rem;
+    display: block;
+    animation: moonGlow 3s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes moonGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 20px rgba(255,255,200,0.5));
+    }
+    50% {
+        filter: drop-shadow(0 0 40px rgba(255,255,200,0.8));
+    }
+}
+
+.goodnight-message {
+    color: white;
+    font-size: 1.8rem;
+    margin-top: 20px;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+}
+
+.goodnight-submessage {
+    color: rgba(255,255,255,0.7);
+    font-size: 1rem;
+    margin-top: 10px;
+    font-style: italic;
+    position: relative;
+    z-index: 1;
+}
+
+/* ========================================
+   Video Call Button
+   ======================================== */
+
+.video-call-section {
+    margin-bottom: 30px;
+}
+
+.video-call-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+    border: none;
+    border-radius: 20px;
+    padding: 20px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: 0 10px 30px rgba(0, 184, 148, 0.3);
+    font-family: 'Poppins', sans-serif;
+}
+
+.video-call-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(0, 184, 148, 0.4);
+}
+
+.video-call-btn .call-icon {
+    font-size: 1.5rem;
+}
+
+/* ========================================
+   Responsive Adjustments for New Features
+   ======================================== */
+
+@media (max-width: 480px) {
+    .quick-actions {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .milestones-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .bubble-icon {
+        font-size: 1.5rem;
+    }
+
+    .hug-emoji {
+        font-size: 5rem;
+    }
+
+    .miss-emoji {
+        font-size: 4rem;
+    }
+
+    .moon-emoji {
+        font-size: 4rem;
+    }
+
+    .hug-message,
+    .kiss-message,
+    .miss-message,
+    .goodnight-message {
+        font-size: 1.2rem;
+    }
+}

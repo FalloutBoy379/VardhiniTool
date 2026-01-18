@@ -54,6 +54,8 @@ function showMainApp() {
     updateTimezones();
     loadDates();
     loadLoveNotes();
+    loadDailyQuote();
+    loadMilestones();
     checkNotificationStatus();
 
     // Set intervals for live updates
@@ -543,5 +545,193 @@ document.addEventListener('keydown', (e) => {
         document.querySelectorAll('.modal').forEach(modal => {
             modal.classList.remove('active');
         });
+        // Also close overlays
+        closeAllOverlays();
     }
 });
+
+// ========================================
+// Quick Action Buttons (Hug, Kiss, etc.)
+// ========================================
+
+function sendHug() {
+    const overlay = document.getElementById('hugOverlay');
+    overlay.classList.add('active');
+
+    setTimeout(() => {
+        overlay.classList.remove('active');
+    }, 3000);
+}
+
+function sendKiss() {
+    const overlay = document.getElementById('kissOverlay');
+    const container = document.getElementById('flyingKisses');
+
+    overlay.classList.add('active');
+    container.innerHTML = '';
+
+    // Create flying kisses
+    for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+            const kiss = document.createElement('span');
+            kiss.className = 'flying-kiss';
+            kiss.textContent = '💋';
+            kiss.style.left = '50%';
+            kiss.style.top = '50%';
+            kiss.style.setProperty('--tx', (Math.random() - 0.5) * 400 + 'px');
+            kiss.style.setProperty('--ty', (Math.random() - 0.5) * 400 + 'px');
+            kiss.style.animationDelay = Math.random() * 0.5 + 's';
+            container.appendChild(kiss);
+        }, i * 100);
+    }
+
+    setTimeout(() => {
+        overlay.classList.remove('active');
+    }, 3500);
+}
+
+function sendMissYou() {
+    const overlay = document.getElementById('missOverlay');
+    overlay.classList.add('active');
+
+    setTimeout(() => {
+        overlay.classList.remove('active');
+    }, 4000);
+}
+
+function sendGoodnight() {
+    const overlay = document.getElementById('goodnightOverlay');
+    const container = document.getElementById('starsContainer');
+
+    overlay.classList.add('active');
+    container.innerHTML = '';
+
+    // Create twinkling stars
+    for (let i = 0; i < 30; i++) {
+        const star = document.createElement('span');
+        star.className = 'star';
+        star.textContent = '✦';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.fontSize = (Math.random() * 15 + 10) + 'px';
+        star.style.animationDelay = Math.random() * 2 + 's';
+        container.appendChild(star);
+    }
+
+    setTimeout(() => {
+        overlay.classList.remove('active');
+    }, 5000);
+}
+
+function closeAllOverlays() {
+    document.querySelectorAll('.hug-overlay, .kiss-overlay, .miss-overlay, .goodnight-overlay').forEach(overlay => {
+        overlay.classList.remove('active');
+    });
+}
+
+// Click anywhere to close overlays
+document.querySelectorAll('.hug-overlay, .kiss-overlay, .miss-overlay, .goodnight-overlay').forEach(overlay => {
+    overlay.addEventListener('click', () => {
+        overlay.classList.remove('active');
+    });
+});
+
+// ========================================
+// Daily Love Quote
+// ========================================
+
+function loadDailyQuote() {
+    const quotes = CONFIG.dailyQuotes || [
+        "Distance means so little when someone means so much.",
+        "I carry your heart with me (I carry it in my heart).",
+        "The best thing to hold onto in life is each other.",
+        "You're my favorite hello and my hardest goodbye.",
+        "I love you not only for what you are, but for what I am when I am with you.",
+        "Together is my favorite place to be.",
+        "Every love story is beautiful, but ours is my favorite.",
+        "In a sea of people, my eyes will always search for you.",
+        "You are my today and all of my tomorrows.",
+        "I want all of you, forever, you and me, every day."
+    ];
+
+    // Use date to pick a consistent quote for the day
+    const today = new Date();
+    const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+    const quoteIndex = dayOfYear % quotes.length;
+
+    document.getElementById('dailyQuote').textContent = quotes[quoteIndex];
+}
+
+// ========================================
+// Milestones
+// ========================================
+
+function loadMilestones() {
+    const container = document.getElementById('milestonesGrid');
+    const anniversary = new Date(CONFIG.anniversaryDate);
+    const now = new Date();
+    const daysTogether = Math.floor((now - anniversary) / (1000 * 60 * 60 * 24));
+
+    const milestones = [
+        { icon: '💕', title: 'First Day', days: 1, achieved: daysTogether >= 1 },
+        { icon: '🌟', title: '1 Week', days: 7, achieved: daysTogether >= 7 },
+        { icon: '🎉', title: '1 Month', days: 30, achieved: daysTogether >= 30 },
+        { icon: '💯', title: '100 Days', days: 100, achieved: daysTogether >= 100 },
+        { icon: '💝', title: '6 Months', days: 182, achieved: daysTogether >= 182 },
+        { icon: '🏆', title: '1 Year', days: 365, achieved: daysTogether >= 365 },
+    ];
+
+    container.innerHTML = milestones.map(m => `
+        <div class="milestone-card ${m.achieved ? 'achieved' : ''}">
+            <div class="milestone-icon">${m.icon}</div>
+            <div class="milestone-title">${m.title}</div>
+            <div class="milestone-status ${m.achieved ? 'achieved' : ''}">
+                ${m.achieved ? '✓ Achieved!' : `${m.days - daysTogether} days to go`}
+            </div>
+        </div>
+    `).join('');
+}
+
+// ========================================
+// Secret Message
+// ========================================
+
+function revealSecret() {
+    const envelope = document.getElementById('secretEnvelope');
+    const message = document.getElementById('secretMessage');
+    const textEl = document.getElementById('secretText');
+
+    if (envelope.style.display !== 'none') {
+        const secrets = CONFIG.secretMessages || [
+            "I think about you every single day. You make my world brighter just by being in it. 💖",
+            "If I could give you one thing, it would be the ability to see yourself through my eyes. Then you'd know how special you are to me.",
+            "You're not just my girlfriend, you're my best friend, my comfort, and my home. I love you more than words can say.",
+            "Every moment with you, even the virtual ones, is a moment I treasure. You're worth every mile between us.",
+            "I can't wait to hold you in my arms. Until then, know that my heart is always with you."
+        ];
+
+        const randomSecret = secrets[Math.floor(Math.random() * secrets.length)];
+        textEl.textContent = randomSecret;
+
+        envelope.style.display = 'none';
+        message.style.display = 'block';
+    }
+}
+
+function closeSecret() {
+    const envelope = document.getElementById('secretEnvelope');
+    const message = document.getElementById('secretMessage');
+
+    message.style.display = 'none';
+    envelope.style.display = 'block';
+}
+
+// ========================================
+// Video Call
+// ========================================
+
+function startVideoCall() {
+    // Open Google Meet in a new tab
+    // This creates a new meeting that both can join
+    window.open('https://meet.google.com/new', '_blank');
+}

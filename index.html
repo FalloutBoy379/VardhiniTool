@@ -83,6 +83,51 @@
             </div>
         </section>
 
+        <!-- Quick Actions Section -->
+        <section class="quick-actions-section">
+            <div class="quick-actions">
+                <button class="action-bubble hug-btn" onclick="sendHug()">
+                    <span class="bubble-icon">🤗</span>
+                    <span class="bubble-text">Send Hug</span>
+                </button>
+                <button class="action-bubble kiss-btn" onclick="sendKiss()">
+                    <span class="bubble-icon">😘</span>
+                    <span class="bubble-text">Send Kiss</span>
+                </button>
+                <button class="action-bubble miss-btn" onclick="sendMissYou()">
+                    <span class="bubble-icon">🥺</span>
+                    <span class="bubble-text">Miss You</span>
+                </button>
+                <button class="action-bubble goodnight-btn" onclick="sendGoodnight()">
+                    <span class="bubble-icon">🌙</span>
+                    <span class="bubble-text">Goodnight</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Daily Love Quote -->
+        <section class="quote-section">
+            <div class="quote-card">
+                <div class="quote-icon">💭</div>
+                <p class="daily-quote" id="dailyQuote"></p>
+                <p class="quote-label">Today's Love Note</p>
+            </div>
+        </section>
+
+        <!-- Milestones Section -->
+        <section class="milestones-section">
+            <h2 class="section-title">Our Milestones</h2>
+            <div class="milestones-grid" id="milestonesGrid"></div>
+        </section>
+
+        <!-- Video Call Section -->
+        <section class="video-call-section">
+            <button class="video-call-btn" onclick="startVideoCall()">
+                <span class="call-icon">📹</span>
+                <span>Start a Video Call</span>
+            </button>
+        </section>
+
         <!-- Upcoming Dates Section -->
         <section class="dates-section">
             <div class="section-header">
@@ -110,6 +155,20 @@
             </div>
         </section>
 
+        <!-- Secret Message Section -->
+        <section class="secret-section">
+            <div class="secret-card" onclick="revealSecret()">
+                <div class="secret-envelope" id="secretEnvelope">
+                    <span class="envelope-icon">💌</span>
+                    <p>Tap to open a secret message...</p>
+                </div>
+                <div class="secret-message" id="secretMessage" style="display: none;">
+                    <p class="secret-text" id="secretText"></p>
+                    <button class="close-secret-btn" onclick="event.stopPropagation(); closeSecret()">Close</button>
+                </div>
+            </div>
+        </section>
+
         <!-- Footer -->
         <footer class="app-footer">
             <p>Made with &#10084; by Ansh</p>
@@ -117,6 +176,41 @@
                 Enable Reminders
             </button>
         </footer>
+    </div>
+
+    <!-- Hug Animation Overlay -->
+    <div class="hug-overlay" id="hugOverlay">
+        <div class="hug-animation">
+            <span class="hug-emoji">🤗</span>
+            <p class="hug-message">Ansh sent you a big warm hug!</p>
+        </div>
+    </div>
+
+    <!-- Kiss Animation Overlay -->
+    <div class="kiss-overlay" id="kissOverlay">
+        <div class="kiss-animation">
+            <div class="flying-kisses" id="flyingKisses"></div>
+            <p class="kiss-message">Ansh blows you kisses! 😘</p>
+        </div>
+    </div>
+
+    <!-- Miss You Overlay -->
+    <div class="miss-overlay" id="missOverlay">
+        <div class="miss-animation">
+            <span class="miss-emoji">🥺💕</span>
+            <p class="miss-message">Ansh is missing you so much right now...</p>
+            <p class="miss-submessage">Every moment apart makes seeing you sweeter</p>
+        </div>
+    </div>
+
+    <!-- Goodnight Overlay -->
+    <div class="goodnight-overlay" id="goodnightOverlay">
+        <div class="goodnight-animation">
+            <div class="stars-container" id="starsContainer"></div>
+            <span class="moon-emoji">🌙</span>
+            <p class="goodnight-message">Goodnight, my love!</p>
+            <p class="goodnight-submessage">Dream of me... I'll be dreaming of you 💫</p>
+        </div>
     </div>
 
     <!-- Add Date Modal -->
