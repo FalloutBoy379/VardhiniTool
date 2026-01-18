@@ -126,10 +126,17 @@
         <!-- Video Call Section -->
         <section class="video-call-section">
             <div class="video-call-container">
-                <button class="video-call-btn" onclick="startVideoCall()">
-                    <span class="call-icon">📹</span>
-                    <span>Start a Video Call</span>
-                </button>
+                <div class="video-call-options">
+                    <button class="video-call-btn" onclick="startVideoCall()">
+                        <span class="call-icon">📹</span>
+                        <span>Instant Video Call</span>
+                    </button>
+                    <button class="video-call-btn secondary" onclick="startGoogleMeet()">
+                        <span class="call-icon">🔗</span>
+                        <span>Use Google Meet</span>
+                    </button>
+                </div>
+                <p class="video-call-hint">Instant call uses Jitsi Meet (no account needed!)</p>
                 <div class="active-meeting" id="activeMeeting" style="display: none;">
                     <p class="meeting-label">Active meeting:</p>
                     <a href="#" id="meetingLink" target="_blank" class="meeting-link"></a>
@@ -283,6 +290,24 @@
                     </label>
                 </div>
                 <button type="submit" class="submit-btn">Save Date</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Video Call Link Modal -->
+    <div class="modal" id="videoLinkModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeVideoLinkModal()">&times;</span>
+            <h2 class="modal-title">Share Meeting Link</h2>
+            <p style="text-align: center; color: #636e72; margin-bottom: 20px;">
+                Copy the Google Meet link from the new tab and paste it here to share with your partner!
+            </p>
+            <form id="videoLinkForm" onsubmit="submitVideoLink(event)">
+                <div class="form-group">
+                    <label for="meetingLinkInput">Meeting Link</label>
+                    <input type="url" id="meetingLinkInput" required placeholder="https://meet.google.com/xxx-xxxx-xxx">
+                </div>
+                <button type="submit" class="submit-btn">Share with Partner 💕</button>
             </form>
         </div>
     </div>

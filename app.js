@@ -571,8 +571,9 @@ function sendHug() {
         FirebaseSync.sendReaction('hug');
     }
 
-    // Show local animation
+    // Show local animation with "sent" message
     const overlay = document.getElementById('hugOverlay');
+    document.querySelector('.hug-message').textContent = 'Sending a big warm hug! 🤗';
     overlay.classList.add('active');
 
     setTimeout(() => {
@@ -589,6 +590,8 @@ function sendKiss() {
     const overlay = document.getElementById('kissOverlay');
     const container = document.getElementById('flyingKisses');
 
+    // Show "sent" message
+    document.querySelector('.kiss-message').textContent = 'Blowing kisses! 😘';
     overlay.classList.add('active');
     container.innerHTML = '';
 
@@ -619,6 +622,9 @@ function sendMissYou() {
     }
 
     const overlay = document.getElementById('missOverlay');
+    // Show "sent" message
+    document.querySelector('.miss-message').textContent = 'Letting them know you miss them... 🥺';
+    document.querySelector('.miss-submessage').textContent = 'Your love is on the way!';
     overlay.classList.add('active');
 
     setTimeout(() => {
@@ -635,6 +641,9 @@ function sendGoodnight() {
     const overlay = document.getElementById('goodnightOverlay');
     const container = document.getElementById('starsContainer');
 
+    // Show "sent" message
+    document.querySelector('.goodnight-message').textContent = 'Sending sweet dreams! 🌙';
+    document.querySelector('.goodnight-submessage').textContent = 'May they dream of you tonight... 💫';
     overlay.classList.add('active');
     container.innerHTML = '';
 
@@ -763,30 +772,57 @@ function closeSecret() {
 // ========================================
 
 function startVideoCall() {
-    // For now, open Google Meet new meeting page
-    // User will need to copy the link
+    // Generate a unique room name using your names + timestamp
+    const roomName = `AnshVardhini-${Date.now().toString(36)}`;
+    const meetLink = `https://meet.jit.si/${roomName}`;
+
+    // Share the meeting link via Firebase automatically
+    if (window.FirebaseSync && FirebaseSync.isEnabled()) {
+        FirebaseSync.shareMeeting(meetLink);
+    }
+
+    // Show it locally
+    const container = document.getElementById('activeMeeting');
+    const linkEl = document.getElementById('meetingLink');
+    container.style.display = 'block';
+    linkEl.href = meetLink;
+    linkEl.textContent = 'Click to join';
+    container.dataset.link = meetLink;
+
+    // Open the meeting in a new tab
+    window.open(meetLink, '_blank');
+}
+
+// Optional: Keep Google Meet option available
+function startGoogleMeet() {
     window.open('https://meet.google.com/new', '_blank');
+    document.getElementById('videoLinkModal').classList.add('active');
+}
 
-    // Show a prompt to share the meeting link
-    setTimeout(() => {
-        const link = prompt(
-            'Copy the Google Meet link from the new tab and paste it here to share with your partner:',
-            ''
-        );
+function closeVideoLinkModal() {
+    document.getElementById('videoLinkModal').classList.remove('active');
+}
 
-        if (link && link.includes('meet.google.com')) {
-            // Share the meeting link via Firebase
-            if (window.FirebaseSync && FirebaseSync.isEnabled()) {
-                FirebaseSync.shareMeeting(link);
-            }
+function submitVideoLink(event) {
+    event.preventDefault();
 
-            // Also show it locally
-            const container = document.getElementById('activeMeeting');
-            const linkEl = document.getElementById('meetingLink');
-            container.style.display = 'block';
-            linkEl.href = link;
-            linkEl.textContent = 'Click to join';
-            container.dataset.link = link;
+    const link = document.getElementById('meetingLinkInput').value.trim();
+
+    if (link && (link.includes('meet.google.com') || link.includes('zoom.us') || link.includes('teams.microsoft'))) {
+        // Share the meeting link via Firebase
+        if (window.FirebaseSync && FirebaseSync.isEnabled()) {
+            FirebaseSync.shareMeeting(link);
         }
-    }, 2000);
+
+        // Show it locally
+        const container = document.getElementById('activeMeeting');
+        const linkEl = document.getElementById('meetingLink');
+        container.style.display = 'block';
+        linkEl.href = link;
+        linkEl.textContent = 'Click to join';
+        container.dataset.link = link;
+
+        closeVideoLinkModal();
+        document.getElementById('meetingLinkInput').value = '';
+    }
 }

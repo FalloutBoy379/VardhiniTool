@@ -1324,6 +1324,40 @@ body {
     font-size: 1.5rem;
 }
 
+.video-call-options {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.video-call-options .video-call-btn {
+    flex: 1;
+    padding: 15px;
+    font-size: 0.95rem;
+}
+
+.video-call-btn.secondary {
+    background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+    box-shadow: 0 10px 30px rgba(108, 92, 231, 0.3);
+}
+
+.video-call-btn.secondary:hover {
+    box-shadow: 0 15px 40px rgba(108, 92, 231, 0.4);
+}
+
+.video-call-hint {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-top: 5px;
+}
+
+@media (max-width: 500px) {
+    .video-call-options {
+        flex-direction: column;
+    }
+}
+
 /* ========================================
    Responsive Adjustments for New Features
    ======================================== */
