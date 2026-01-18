@@ -201,8 +201,9 @@ function displayMessage(message) {
     }
 
     const isMe = message.from === currentUser;
+    const isReaction = message.isReaction === true;
     const div = document.createElement('div');
-    div.className = `chat-message ${isMe ? 'sent' : 'received'}`;
+    div.className = `chat-message ${isMe ? 'sent' : 'received'} ${isReaction ? 'reaction-message' : ''}`;
     div.dataset.timestamp = message.timestamp;
 
     const time = new Date(message.timestamp).toLocaleTimeString('en-US', {
@@ -211,7 +212,7 @@ function displayMessage(message) {
     });
 
     div.innerHTML = `
-        <div class="message-bubble">
+        <div class="message-bubble ${isReaction ? 'reaction-bubble' : ''}">
             <p class="message-text">${escapeHtml(message.text)}</p>
             <span class="message-time">${time}</span>
         </div>
@@ -230,9 +231,27 @@ function displayMessage(message) {
 function sendReactionToFirebase(type) {
     if (!isFirebaseEnabled || !db) return;
 
+    // Send the reaction for the animation
     db.ref('reactions').push({
         type: type,
         from: currentUser,
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+    });
+
+    // Also send a chat message so it shows in the chat history
+    const reactionMessages = {
+        hug: `sent a big warm hug! 🤗`,
+        kiss: `sent kisses! 😘`,
+        miss: `is missing you! 🥺`,
+        goodnight: `says goodnight! 🌙`
+    };
+
+    const messageText = `${capitalize(currentUser)} ${reactionMessages[type]}`;
+
+    db.ref('messages').push({
+        text: messageText,
+        from: currentUser,
+        isReaction: true,
         timestamp: firebase.database.ServerValue.TIMESTAMP
     });
 }

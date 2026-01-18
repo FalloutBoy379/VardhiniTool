@@ -1417,6 +1417,20 @@ body {
     border-bottom-left-radius: 4px;
 }
 
+/* Reaction messages in chat */
+.reaction-message {
+    align-self: center !important;
+    max-width: 90% !important;
+}
+
+.reaction-bubble {
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%) !important;
+    color: var(--text-dark) !important;
+    text-align: center;
+    border-radius: 20px !important;
+    font-style: italic;
+}
+
 .message-text {
     margin: 0;
     word-wrap: break-word;
