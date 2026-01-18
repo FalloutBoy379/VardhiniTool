@@ -593,6 +593,30 @@ body {
     color: white;
 }
 
+.footer-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.switch-user-btn {
+    background: transparent;
+    border: 2px solid var(--soft-pink);
+    padding: 10px 25px;
+    border-radius: 20px;
+    color: var(--text-light);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.switch-user-btn:hover {
+    background: var(--soft-pink);
+    color: var(--deep-rose);
+}
+
 /* ========================================
    Modals
    ======================================== */

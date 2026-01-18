@@ -358,11 +358,15 @@ function joinMeeting() {
 // User Selection Modal
 // ========================================
 
-function showUserSelection() {
-    // If user is already set, don't show
-    if (localStorage.getItem('currentUser')) {
+function showUserSelection(force = false) {
+    // If user is already set and not forcing, don't show
+    if (localStorage.getItem('currentUser') && !force) {
         return;
     }
+
+    // Remove existing modal if any
+    const existingModal = document.getElementById('userSelectModal');
+    if (existingModal) existingModal.remove();
 
     // Create modal
     const modal = document.createElement('div');
@@ -385,6 +389,11 @@ function showUserSelection() {
         </div>
     `;
     document.body.appendChild(modal);
+}
+
+// Switch user function (called from footer button)
+function switchUser() {
+    showUserSelection(true);
 }
 
 function selectUser(user) {
