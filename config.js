@@ -48,13 +48,13 @@ const CONFIG = {
     // (chat and sync features will be disabled)
     // ========================================
     firebase: {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_PROJECT.firebaseapp.com",
-        databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_PROJECT.appspot.com",
-        messagingSenderId: "YOUR_SENDER_ID",
-        appId: "YOUR_APP_ID"
+        apiKey: "AIzaSyCQtvXC85fo-G49_Lr32-c2t1Zro_vUBDc",
+        authDomain: "ihaveacrushonyou.firebaseapp.com",
+        databaseURL: "https://ihaveacrushonyou-default-rtdb.firebaseio.com",
+        projectId: "ihaveacrushonyou",
+        storageBucket: "ihaveacrushonyou.firebasestorage.app",
+        messagingSenderId: "221197074901",
+        appId: "1:221197074901:web:42894844f18958e9f3fd5c"
     },
 
     // ========================================
