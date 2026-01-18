@@ -35,6 +35,29 @@ const CONFIG = {
     },
 
     // ========================================
+    // Firebase Configuration (Optional)
+    // ========================================
+    // To enable real-time chat and sync features:
+    // 1. Go to https://console.firebase.google.com/
+    // 2. Create a new project (or use existing)
+    // 3. Add a Web App to get your config
+    // 4. Enable Realtime Database (in test mode)
+    // 5. Replace the values below with your config
+    //
+    // Without Firebase, the app works in offline mode
+    // (chat and sync features will be disabled)
+    // ========================================
+    firebase: {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_PROJECT.firebaseapp.com",
+        databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    },
+
+    // ========================================
     // Pre-loaded Dates
     // ========================================
     // These show up automatically for Vardhini

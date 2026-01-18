@@ -1304,6 +1304,211 @@ body {
    Responsive Adjustments for New Features
    ======================================== */
 
+/* ========================================
+   Chat Section
+   ======================================== */
+
+.chat-section {
+    margin-bottom: 30px;
+}
+
+.chat-section .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.online-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #636e72;
+    transition: all 0.3s ease;
+}
+
+.status-text {
+    font-weight: 500;
+}
+
+.chat-container {
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow: var(--shadow-light);
+    overflow: hidden;
+}
+
+.chat-messages {
+    height: 300px;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.chat-empty {
+    text-align: center;
+    color: var(--text-light);
+    font-style: italic;
+    margin: auto;
+}
+
+.chat-message {
+    display: flex;
+    max-width: 80%;
+}
+
+.chat-message.sent {
+    align-self: flex-end;
+}
+
+.chat-message.received {
+    align-self: flex-start;
+}
+
+.message-bubble {
+    padding: 12px 16px;
+    border-radius: 18px;
+    position: relative;
+}
+
+.chat-message.sent .message-bubble {
+    background: var(--gradient);
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.chat-message.received .message-bubble {
+    background: var(--soft-pink);
+    color: var(--text-dark);
+    border-bottom-left-radius: 4px;
+}
+
+.message-text {
+    margin: 0;
+    word-wrap: break-word;
+    line-height: 1.4;
+}
+
+.message-time {
+    font-size: 0.7rem;
+    opacity: 0.7;
+    display: block;
+    margin-top: 4px;
+    text-align: right;
+}
+
+.chat-input-form {
+    display: flex;
+    padding: 15px;
+    gap: 10px;
+    border-top: 1px solid var(--soft-pink);
+    background: var(--cream);
+}
+
+.chat-input {
+    flex: 1;
+    padding: 12px 18px;
+    border: 2px solid var(--soft-pink);
+    border-radius: 25px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.chat-input:focus {
+    border-color: var(--pink);
+}
+
+.chat-send-btn {
+    background: var(--gradient);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.chat-send-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(196, 69, 105, 0.3);
+}
+
+/* ========================================
+   Active Meeting Display
+   ======================================== */
+
+.video-call-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.active-meeting {
+    background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+    border-radius: 15px;
+    padding: 15px 20px;
+    text-align: center;
+    color: white;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(0, 184, 148, 0.4); }
+    50% { box-shadow: 0 0 0 15px rgba(0, 184, 148, 0); }
+}
+
+.meeting-label {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    margin-bottom: 8px;
+}
+
+.meeting-link {
+    color: white;
+    text-decoration: underline;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.join-meeting-btn {
+    background: white;
+    color: #00b894;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.join-meeting-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* ========================================
+   Responsive Adjustments for New Features
+   ======================================== */
+
 @media (max-width: 480px) {
     .quick-actions {
         grid-template-columns: repeat(2, 1fr);
@@ -1334,5 +1539,17 @@ body {
     .miss-message,
     .goodnight-message {
         font-size: 1.2rem;
+    }
+
+    .chat-messages {
+        height: 250px;
+    }
+
+    .chat-message {
+        max-width: 85%;
+    }
+
+    .chat-send-btn span:first-child {
+        display: none;
     }
 }

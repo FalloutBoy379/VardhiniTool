@@ -48,6 +48,17 @@ function showMainApp() {
     document.getElementById('passwordGate').style.display = 'none';
     document.getElementById('mainApp').style.display = 'block';
 
+    // Initialize Firebase for real-time sync
+    if (window.FirebaseSync) {
+        const firebaseEnabled = FirebaseSync.init();
+        if (firebaseEnabled) {
+            // Show user selection if not set
+            if (!localStorage.getItem('currentUser')) {
+                FirebaseSync.showUserSelection();
+            }
+        }
+    }
+
     // Initialize all components
     updateDaysTogether();
     updateReunionCountdown();
@@ -555,6 +566,12 @@ document.addEventListener('keydown', (e) => {
 // ========================================
 
 function sendHug() {
+    // Send to Firebase so partner sees it
+    if (window.FirebaseSync && FirebaseSync.isEnabled()) {
+        FirebaseSync.sendReaction('hug');
+    }
+
+    // Show local animation
     const overlay = document.getElementById('hugOverlay');
     overlay.classList.add('active');
 
@@ -564,6 +581,11 @@ function sendHug() {
 }
 
 function sendKiss() {
+    // Send to Firebase so partner sees it
+    if (window.FirebaseSync && FirebaseSync.isEnabled()) {
+        FirebaseSync.sendReaction('kiss');
+    }
+
     const overlay = document.getElementById('kissOverlay');
     const container = document.getElementById('flyingKisses');
 
@@ -591,6 +613,11 @@ function sendKiss() {
 }
 
 function sendMissYou() {
+    // Send to Firebase so partner sees it
+    if (window.FirebaseSync && FirebaseSync.isEnabled()) {
+        FirebaseSync.sendReaction('miss');
+    }
+
     const overlay = document.getElementById('missOverlay');
     overlay.classList.add('active');
 
@@ -600,6 +627,11 @@ function sendMissYou() {
 }
 
 function sendGoodnight() {
+    // Send to Firebase so partner sees it
+    if (window.FirebaseSync && FirebaseSync.isEnabled()) {
+        FirebaseSync.sendReaction('goodnight');
+    }
+
     const overlay = document.getElementById('goodnightOverlay');
     const container = document.getElementById('starsContainer');
 
@@ -731,7 +763,30 @@ function closeSecret() {
 // ========================================
 
 function startVideoCall() {
-    // Open Google Meet in a new tab
-    // This creates a new meeting that both can join
+    // For now, open Google Meet new meeting page
+    // User will need to copy the link
     window.open('https://meet.google.com/new', '_blank');
+
+    // Show a prompt to share the meeting link
+    setTimeout(() => {
+        const link = prompt(
+            'Copy the Google Meet link from the new tab and paste it here to share with your partner:',
+            ''
+        );
+
+        if (link && link.includes('meet.google.com')) {
+            // Share the meeting link via Firebase
+            if (window.FirebaseSync && FirebaseSync.isEnabled()) {
+                FirebaseSync.shareMeeting(link);
+            }
+
+            // Also show it locally
+            const container = document.getElementById('activeMeeting');
+            const linkEl = document.getElementById('meetingLink');
+            container.style.display = 'block';
+            linkEl.href = link;
+            linkEl.textContent = 'Click to join';
+            container.dataset.link = link;
+        }
+    }, 2000);
 }
