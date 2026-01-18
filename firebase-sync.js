@@ -333,6 +333,7 @@ function clearMeeting() {
 function updateMeetingDisplay(meeting) {
     const container = document.getElementById('activeMeeting');
     const linkEl = document.getElementById('meetingLink');
+    const labelEl = container.querySelector('.meeting-label');
 
     if (meeting && meeting.link) {
         container.style.display = 'block';
@@ -341,6 +342,22 @@ function updateMeetingDisplay(meeting) {
 
         // Store for join button
         container.dataset.link = meeting.link;
+
+        // Show who started the meeting
+        if (meeting.startedBy && meeting.startedBy !== currentUser) {
+            const starterName = capitalize(meeting.startedBy);
+            labelEl.textContent = `${starterName} started a video call!`;
+
+            // Show notification if supported
+            if (Notification.permission === 'granted') {
+                new Notification(`${starterName} started a video call!`, {
+                    body: 'Click to join the call',
+                    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📹</text></svg>'
+                });
+            }
+        } else {
+            labelEl.textContent = 'Active meeting:';
+        }
     } else {
         container.style.display = 'none';
     }
@@ -352,6 +369,10 @@ function joinMeeting() {
     if (link) {
         window.open(link, '_blank');
     }
+}
+
+function endMeeting() {
+    clearMeeting();
 }
 
 // ========================================

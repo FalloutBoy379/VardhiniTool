@@ -1512,6 +1512,12 @@ body {
     margin-bottom: 10px;
 }
 
+.meeting-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
 .join-meeting-btn {
     background: white;
     color: #00b894;
@@ -1527,6 +1533,22 @@ body {
 .join-meeting-btn:hover {
     transform: scale(1.05);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.end-meeting-btn {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: 2px solid white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.end-meeting-btn:hover {
+    background: rgba(255,255,255,0.3);
 }
 
 /* ========================================
