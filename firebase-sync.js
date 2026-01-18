@@ -150,6 +150,9 @@ function setupRealtimeListeners() {
         const meeting = snap.val();
         updateMeetingDisplay(meeting);
     });
+
+    // Listen for dates
+    setupDatesListener();
 }
 
 // ========================================
@@ -395,6 +398,69 @@ function endMeeting() {
 }
 
 // ========================================
+// Dates Sync
+// ========================================
+
+function setupDatesListener() {
+    if (!db) return;
+
+    // Listen for dates changes
+    db.ref('dates').on('value', (snap) => {
+        const firebaseDates = snap.val() || {};
+
+        // Convert to array and merge with preloaded dates
+        let dates = Object.keys(firebaseDates).map(key => ({
+            ...firebaseDates[key],
+            firebaseKey: key
+        }));
+
+        // Add preloaded dates if not already in Firebase
+        CONFIG.preloadedDates.forEach(preDate => {
+            if (!dates.find(d => d.id === preDate.id)) {
+                dates.push({ ...preDate, preloaded: true });
+            }
+        });
+
+        // Sort by date
+        dates.sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
+
+        // Update local storage for offline access
+        localStorage.setItem('dates', JSON.stringify(dates));
+
+        // Refresh the dates display if the function exists
+        if (typeof window.renderDatesFromFirebase === 'function') {
+            window.renderDatesFromFirebase(dates);
+        }
+    });
+}
+
+function addDateToFirebase(dateData) {
+    if (!isFirebaseEnabled || !db) {
+        // Offline mode - save locally
+        return null;
+    }
+
+    // Push to Firebase
+    const newRef = db.ref('dates').push(dateData);
+    return newRef.key;
+}
+
+function deleteDateFromFirebase(dateId, firebaseKey) {
+    if (!isFirebaseEnabled || !db) return;
+
+    if (firebaseKey) {
+        db.ref('dates/' + firebaseKey).remove();
+    } else {
+        // Find by id
+        db.ref('dates').orderByChild('id').equalTo(dateId).once('value', (snap) => {
+            snap.forEach((child) => {
+                child.ref.remove();
+            });
+        });
+    }
+}
+
+// ========================================
 // User Selection Modal
 // ========================================
 
@@ -479,5 +545,7 @@ window.FirebaseSync = {
     shareMeeting: shareMeetingLink,
     clearMeeting: clearMeeting,
     showUserSelection: showUserSelection,
-    isEnabled: () => isFirebaseEnabled
+    isEnabled: () => isFirebaseEnabled,
+    addDate: addDateToFirebase,
+    deleteDate: deleteDateFromFirebase
 };

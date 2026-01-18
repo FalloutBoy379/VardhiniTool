@@ -250,12 +250,17 @@ function loadDates() {
 function renderDates(dates) {
     const container = document.getElementById('datesList');
 
-    if (dates.length === 0) {
+    // Filter to upcoming dates
+    const now = new Date();
+    const upcomingDates = dates.filter(d => new Date(d.dateTime) > now);
+    const displayDates = upcomingDates.length > 0 ? upcomingDates : dates.slice(0, 5);
+
+    if (displayDates.length === 0) {
         container.innerHTML = '<div class="no-dates">No upcoming dates yet. Add one! 💕</div>';
         return;
     }
 
-    container.innerHTML = dates.slice(0, 5).map(date => {
+    container.innerHTML = displayDates.slice(0, 5).map(date => {
         const dateObj = new Date(date.dateTime);
         const icon = getDateIcon(date.type);
         const formattedDate = formatDateDisplay(dateObj);
@@ -272,6 +277,11 @@ function renderDates(dates) {
         `;
     }).join('');
 }
+
+// Called by Firebase when dates change
+window.renderDatesFromFirebase = function(dates) {
+    renderDates(dates);
+};
 
 function getDateIcon(type) {
     switch(type) {
@@ -325,12 +335,18 @@ function addDate(event) {
         preloaded: false
     };
 
-    let dates = JSON.parse(localStorage.getItem('dates')) || [];
-    dates.push(newDate);
-    localStorage.setItem('dates', JSON.stringify(dates));
+    // Save to Firebase if enabled
+    if (window.FirebaseSync && FirebaseSync.isEnabled()) {
+        FirebaseSync.addDate(newDate);
+    } else {
+        // Offline mode - save locally
+        let dates = JSON.parse(localStorage.getItem('dates')) || [];
+        dates.push(newDate);
+        localStorage.setItem('dates', JSON.stringify(dates));
+        loadDates();
+    }
 
     closeDateModal();
-    loadDates();
 
     // Schedule notification if enabled
     if (reminder && Notification.permission === 'granted') {
@@ -377,11 +393,19 @@ function deleteDate() {
     if (!currentDateId) return;
 
     let dates = JSON.parse(localStorage.getItem('dates')) || [];
-    dates = dates.filter(d => d.id !== currentDateId);
-    localStorage.setItem('dates', JSON.stringify(dates));
+    const dateToDelete = dates.find(d => d.id === currentDateId);
+
+    // Delete from Firebase if enabled
+    if (window.FirebaseSync && FirebaseSync.isEnabled() && dateToDelete) {
+        FirebaseSync.deleteDate(currentDateId, dateToDelete.firebaseKey);
+    } else {
+        // Offline mode - delete locally
+        dates = dates.filter(d => d.id !== currentDateId);
+        localStorage.setItem('dates', JSON.stringify(dates));
+        loadDates();
+    }
 
     closeDateDetailModal();
-    loadDates();
 }
 
 function downloadICS() {
