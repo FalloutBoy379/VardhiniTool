@@ -464,17 +464,55 @@ function loadLoveNotes() {
 // Virtual Date Ideas
 // ========================================
 
-function spinDateIdea() {
+// Set your Cloudflare Worker URL here after deploying
+const AI_DATE_IDEAS_URL = CONFIG.aiWorkerUrl || null;
+
+async function spinDateIdea() {
     const ideaElement = document.getElementById('dateIdea');
+    const spinBtn = document.querySelector('.spin-btn');
     const ideas = CONFIG.dateIdeas;
 
     // Animation effect
     ideaElement.style.opacity = '0';
+    spinBtn.disabled = true;
+    spinBtn.querySelector('span:first-child').textContent = 'Thinking...';
 
+    // Try AI first if configured
+    if (AI_DATE_IDEAS_URL) {
+        try {
+            const response = await fetch(AI_DATE_IDEAS_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    mood: ['romantic', 'fun', 'cozy', 'adventurous'][Math.floor(Math.random() * 4)],
+                    activity: ['movie', 'game', 'cooking', 'creative', 'relaxing'][Math.floor(Math.random() * 5)]
+                })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.idea) {
+                    setTimeout(() => {
+                        ideaElement.textContent = data.idea;
+                        ideaElement.style.opacity = '1';
+                        spinBtn.disabled = false;
+                        spinBtn.querySelector('span:first-child').textContent = 'Spin for an Idea';
+                    }, 300);
+                    return;
+                }
+            }
+        } catch (error) {
+            console.log('AI unavailable, using static list:', error.message);
+        }
+    }
+
+    // Fallback to static list
     setTimeout(() => {
         const randomIdea = ideas[Math.floor(Math.random() * ideas.length)];
         ideaElement.textContent = randomIdea;
         ideaElement.style.opacity = '1';
+        spinBtn.disabled = false;
+        spinBtn.querySelector('span:first-child').textContent = 'Spin for an Idea';
     }, 300);
 }
 

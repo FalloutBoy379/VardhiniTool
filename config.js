@@ -119,9 +119,18 @@ const CONFIG = {
     ],
 
     // ========================================
-    // Virtual Date Ideas
+    // AI-Powered Date Ideas (Optional)
     // ========================================
-    // Random suggestions for your LDR dates!
+    // After deploying your Cloudflare Worker, paste the URL here
+    // to enable AI-generated date ideas using Gemini.
+    // Leave as null to use the static list below.
+    // ========================================
+    aiWorkerUrl: "https://love-app-date-ideas.vardhiniansh.workers.dev",
+
+    // ========================================
+    // Virtual Date Ideas (Fallback)
+    // ========================================
+    // Used when AI is unavailable or not configured.
     // Add more ideas as you think of them.
     // ========================================
     dateIdeas: [
