@@ -13,8 +13,9 @@
 // ========================================
 
 const CONFIG = {
-    // Password to enter the app
-    password: "visacutie",
+    // Secure password verification via Cloudflare Worker
+    // The actual password is stored as a secret, not in code
+    authWorkerUrl: "https://love-app-auth.vardhiniansh.workers.dev",
 
     // Your relationship anniversary (YYYY-MM-DD)
     anniversaryDate: "2025-08-28",

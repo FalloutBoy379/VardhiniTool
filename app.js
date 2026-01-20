@@ -27,20 +27,45 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ========================================
-// Password Protection
+// Password Protection (Secure)
 // ========================================
 
-function checkPassword() {
+async function checkPassword() {
     const input = document.getElementById('passwordInput').value;
     const errorMsg = document.getElementById('errorMsg');
+    const submitBtn = document.querySelector('.password-submit');
 
-    if (input === CONFIG.password) {
-        localStorage.setItem('authenticated', 'true');
-        showMainApp();
-    } else {
-        errorMsg.textContent = 'That\'s not quite right... try again!';
-        document.getElementById('passwordInput').value = '';
-        document.getElementById('passwordInput').focus();
+    // Disable button while checking
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Checking...';
+    }
+
+    try {
+        const response = await fetch(CONFIG.authWorkerUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password: input })
+        });
+
+        const data = await response.json();
+
+        if (data.valid) {
+            localStorage.setItem('authenticated', 'true');
+            showMainApp();
+        } else {
+            errorMsg.textContent = 'That\'s not quite right... try again!';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('passwordInput').focus();
+        }
+    } catch (error) {
+        console.error('Auth error:', error);
+        errorMsg.textContent = 'Connection error. Please try again.';
+    } finally {
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Enter';
+        }
     }
 }
 
