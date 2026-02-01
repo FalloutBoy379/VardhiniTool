@@ -89,10 +89,19 @@ function showMainApp() {
     updateReunionCountdown();
     updateTimezones();
     loadDates();
-    loadLoveNotes();
-    loadDailyQuote();
     loadMilestones();
     checkNotificationStatus();
+
+    // Load private content from Firebase, then render
+    if (window.FirebaseSync && FirebaseSync.isEnabled()) {
+        FirebaseSync.loadPrivateContent((content) => {
+            loadLoveNotes(content.loveNotes);
+            loadDailyQuote(content.dailyQuotes);
+        });
+    } else {
+        loadLoveNotes([]);
+        loadDailyQuote([]);
+    }
 
     // Set intervals for live updates
     setInterval(updateReunionCountdown, 1000);
@@ -474,13 +483,18 @@ END:VCALENDAR`;
 // Love Notes
 // ========================================
 
-function loadLoveNotes() {
+function loadLoveNotes(notes) {
     const container = document.getElementById('notesCarousel');
 
-    container.innerHTML = CONFIG.loveNotes.map(note => `
+    if (!notes || notes.length === 0) {
+        container.innerHTML = '<div class="note-card"><p class="note-text">Loading love notes...</p></div>';
+        return;
+    }
+
+    container.innerHTML = notes.map(note => `
         <div class="note-card">
-            <p class="note-text">${note.text}</p>
-            <p class="note-from">— ${note.from}</p>
+            <p class="note-text">${escapeHtmlLocal(note.text)}</p>
+            <p class="note-from">— ${escapeHtmlLocal(note.from)}</p>
         </div>
     `).join('');
 }
@@ -495,7 +509,8 @@ const AI_DATE_IDEAS_URL = CONFIG.aiWorkerUrl || null;
 async function spinDateIdea() {
     const ideaElement = document.getElementById('dateIdea');
     const spinBtn = document.querySelector('.spin-btn');
-    const ideas = CONFIG.dateIdeas;
+    const content = (window.FirebaseSync && FirebaseSync.isEnabled()) ? FirebaseSync.getPrivateContent() : {};
+    const ideas = content.dateIdeas || [];
 
     // Animation effect
     ideaElement.style.opacity = '0';
@@ -533,7 +548,9 @@ async function spinDateIdea() {
 
     // Fallback to static list
     setTimeout(() => {
-        const randomIdea = ideas[Math.floor(Math.random() * ideas.length)];
+        const randomIdea = ideas.length > 0
+            ? ideas[Math.floor(Math.random() * ideas.length)]
+            : 'Watch a movie together on video call!';
         ideaElement.textContent = randomIdea;
         ideaElement.style.opacity = '1';
         spinBtn.disabled = false;
@@ -629,6 +646,12 @@ function checkReminders() {
 // ========================================
 // Utility Functions
 // ========================================
+
+function escapeHtmlLocal(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
 
 // Close modals when clicking outside
 window.addEventListener('click', (e) => {
@@ -768,19 +791,11 @@ document.querySelectorAll('.hug-overlay, .kiss-overlay, .miss-overlay, .goodnigh
 // Daily Love Quote
 // ========================================
 
-function loadDailyQuote() {
-    const quotes = CONFIG.dailyQuotes || [
-        "Distance means so little when someone means so much.",
-        "I carry your heart with me (I carry it in my heart).",
-        "The best thing to hold onto in life is each other.",
-        "You're my favorite hello and my hardest goodbye.",
-        "I love you not only for what you are, but for what I am when I am with you.",
-        "Together is my favorite place to be.",
-        "Every love story is beautiful, but ours is my favorite.",
-        "In a sea of people, my eyes will always search for you.",
-        "You are my today and all of my tomorrows.",
-        "I want all of you, forever, you and me, every day."
-    ];
+function loadDailyQuote(quotes) {
+    if (!quotes || quotes.length === 0) {
+        document.getElementById('dailyQuote').textContent = 'Loading...';
+        return;
+    }
 
     // Use date to pick a consistent quote for the day
     const today = new Date();
@@ -830,13 +845,15 @@ function revealSecret() {
     const textEl = document.getElementById('secretText');
 
     if (envelope.style.display !== 'none') {
-        const secrets = CONFIG.secretMessages || [
-            "I think about you every single day. You make my world brighter just by being in it. 💖",
-            "If I could give you one thing, it would be the ability to see yourself through my eyes. Then you'd know how special you are to me.",
-            "You're not just my girlfriend, you're my best friend, my comfort, and my home. I love you more than words can say.",
-            "Every moment with you, even the virtual ones, is a moment I treasure. You're worth every mile between us.",
-            "I can't wait to hold you in my arms. Until then, know that my heart is always with you."
-        ];
+        const content = (window.FirebaseSync && FirebaseSync.isEnabled()) ? FirebaseSync.getPrivateContent() : {};
+        const secrets = content.secretMessages || [];
+
+        if (secrets.length === 0) {
+            textEl.textContent = 'Loading secret messages...';
+            envelope.style.display = 'none';
+            message.style.display = 'block';
+            return;
+        }
 
         const randomSecret = secrets[Math.floor(Math.random() * secrets.length)];
         textEl.textContent = randomSecret;

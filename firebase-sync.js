@@ -531,6 +531,41 @@ function escapeHtml(text) {
 }
 
 // ========================================
+// Private Content Loader
+// ========================================
+
+let privateContent = {
+    loveNotes: [],
+    secretMessages: [],
+    dailyQuotes: [],
+    dateIdeas: []
+};
+
+function loadPrivateContent(callback) {
+    if (!db) {
+        if (callback) callback(privateContent);
+        return;
+    }
+
+    db.ref('privateContent').once('value', (snap) => {
+        const data = snap.val();
+        if (data) {
+            privateContent = {
+                loveNotes: data.loveNotes || [],
+                secretMessages: data.secretMessages || [],
+                dailyQuotes: data.dailyQuotes || [],
+                dateIdeas: data.dateIdeas || []
+            };
+        }
+        if (callback) callback(privateContent);
+    });
+}
+
+function getPrivateContent() {
+    return privateContent;
+}
+
+// ========================================
 // Initialize on page load
 // ========================================
 
@@ -547,5 +582,7 @@ window.FirebaseSync = {
     showUserSelection: showUserSelection,
     isEnabled: () => isFirebaseEnabled,
     addDate: addDateToFirebase,
-    deleteDate: deleteDateFromFirebase
+    deleteDate: deleteDateFromFirebase,
+    loadPrivateContent: loadPrivateContent,
+    getPrivateContent: getPrivateContent
 };

@@ -91,69 +91,13 @@ const CONFIG = {
     ],
 
     // ========================================
-    // Love Notes
-    // ========================================
-    // Add sweet messages here! Vardhini will
-    // see them in the Love Notes section.
-    // ========================================
-    loveNotes: [
-        {
-            text: "Every mile between us is just another reason to love you harder. Seattle to Brooklyn isn't that far when you're in my heart. 💕",
-            from: "Ansh"
-        },
-        {
-            text: "I fall in love with you a little more every time I hear your voice on our calls. You make the distance feel like nothing.",
-            from: "Ansh"
-        },
-        {
-            text: "They say absence makes the heart grow fonder. I didn't know my heart could hold this much love until I met you.",
-            from: "Ansh"
-        },
-        {
-            text: "Counting down the days until I can hold you again. Every second apart is worth it because I get to spend them loving you.",
-            from: "Ansh"
-        },
-        {
-            text: "You're my favorite notification, my best good morning text, and the last person I think about before I sleep. I love you, Vardhini. 💝",
-            from: "Ansh"
-        }
-    ],
-
-    // ========================================
     // AI-Powered Date Ideas (Optional)
     // ========================================
-    // After deploying your Cloudflare Worker, paste the URL here
-    // to enable AI-generated date ideas using Gemini.
-    // Leave as null to use the static list below.
-    // ========================================
-    aiWorkerUrl: "https://love-app-date-ideas.vardhiniansh.workers.dev",
+    aiWorkerUrl: "https://love-app-date-ideas.vardhiniansh.workers.dev"
 
     // ========================================
-    // Virtual Date Ideas (Fallback)
+    // Love notes, secret messages, daily quotes,
+    // and date ideas are stored in Firebase
+    // (not in public source code)
     // ========================================
-    // Used when AI is unavailable or not configured.
-    // Add more ideas as you think of them.
-    // ========================================
-    dateIdeas: [
-        "🎬 Watch a movie together on Netflix Party",
-        "🍳 Cook the same recipe while video calling",
-        "🎮 Play an online game together (Jackbox, Among Us)",
-        "🎨 Do a virtual paint night together",
-        "📚 Start a book club - read the same book and discuss",
-        "🌟 Stargaze together via video call",
-        "🎵 Create a shared Spotify playlist",
-        "🏠 Give each other a virtual tour of your day",
-        "🎤 Have a karaoke night on video call",
-        "🧩 Do an online escape room together",
-        "☕ Have a coffee/tea date while video calling",
-        "📝 Write each other letters and read them together",
-        "🎲 Play 20 questions or truth or dare",
-        "🖼️ Visit a virtual museum together",
-        "🌅 Watch the sunrise/sunset together (at your own times)",
-        "🎁 Plan a surprise care package for each other",
-        "💭 Share your dreams and goals for the future",
-        "📸 Look through old photos and share memories",
-        "🍕 Order food delivery and eat 'together'",
-        "💆 Do a self-care spa night together on video"
-    ]
 };
